@@ -1,0 +1,8 @@
+{{define "content"}}
+<h1>Add User</h1>
+<form method="POST" action="/add_user">
+    <input type="text" name="name" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <button type="submit">Add User</button>
+</form>
+{{end}}
