@@ -1,8 +1,16 @@
-{{define "content"}}
-<h1>Blog Posts</h1>
-<ul>
-    {{range .}}
-    <li><a href="/posts/{{.ID}}">{{.Title}}</a> by {{.Author}}</li>
-    {{end}}
-</ul>
-{{end}}
+{{ define "content" }}
+<div class="container">
+  <h1 class="page-title">Blog Posts</h1>
+
+  <div class="posts">
+    {{ range . }}
+    <div class="post">
+      <h2>{{ .Title }}</h2>
+      <p class="meta">By {{ .Author }} on {{ .Date }}</p>
+      <p>{{ .Excerpt }}</p>
+      <a href="/posts/{{ .ID }}" class="btn read-more-btn">Read More</a>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
