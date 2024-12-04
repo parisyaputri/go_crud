@@ -1,6 +1,10 @@
-{{define "content"}}
-<h1>{{.Title}}</h1>
-<p>by {{.Author}}</p>
-<p>{{.Body}}</p>
-<a href="/posts">Back to Posts</a>
-{{end}}
+{{ define "content" }}
+<div class="post-container">
+  <h1 class="post-title">{{ .Title }}</h1>
+  <p class="post-author">By {{ .Author }}</p>
+  <div class="post-body">
+    <p>{{ .Body }}</p>
+  </div>
+  <a href="/posts" class="btn btn-secondary">Back to Posts</a>
+</div>
+{{ end }}

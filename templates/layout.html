@@ -9,13 +9,20 @@
     <title>My Go App</title>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/add_user">Add User</a>
-        <a href="/posts">Blog</a>
-        <a href="/contact">Contact</a>
-    </nav>
-    <main>
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="The Bloggers" height="40">
+            </a>
+            <div class="d-flex">
+                <a href="/" class="btn btn-success mx-1">Home</a>
+                <a href="/contact" class="btn btn-success mx-1">Contact</a>
+                <a href="/posts" class="btn btn-success mx-1">Blog</a>
+                <a href="/add_user" class="btn btn-success mx-1">Add User</a>
+            </div>
+        </div>
+    </header>
+    <main class="container mt-5">
         {{block "content" .}}{{end}}
     </main>
 </body>
