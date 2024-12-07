@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="sidebar-right">
+      <h2>Product Data</h2>
+      <div class="info-box">
+        <p><strong>Nama:</strong> Andi</p>
+        <p><strong>ID Siswa:</strong> 101</p>
+        <p><strong>Email:</strong> 10-A</p>
+        <p><strong>Password:</strong> Jakarta</p>
+      </div>
+    </div>
+  </body>
+  <style>
+    .sidebar-right {
+      width: 300px;
+      background-color: #f8f9fa;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-right h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .info-box {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+    }
+
+    .info-box p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id"); // Ambil ID dari query parameter
+
+      if (!productId) {
+        alert("ID produk tidak ditemukan.");
+        window.location.href = "/"; // Redirect jika ID tidak ada
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch(
+          `http://localhost:8080/products/${productId}`,
+          {
+            method: "GET",
+          }
+        );
+
+        if (response.ok) {
+          const product = await response.json();
+
+          // Render detail produk di dalam halaman
+          document.querySelector(".info-box").innerHTML = `
+        <p><strong>ID:</strong> ${product.ID}</p>
+        <p><strong>Product Name:</strong> ${product.ProductName}</p>
+        <p><strong>Product Price:</strong> Rp ${product.Price.toLocaleString()}</p>
+                <p><strong>Quantity:</strong> ${product.Quantity.toLocaleString()}</p>
+        <p><strong>Date Added:</strong> ${new Date(
+          product.CreatedAt
+        ).toLocaleString()}</p>
+        <p><strong>Date Updated:</strong> ${new Date(
+          product.UpdatedAt
+        ).toLocaleString()}</p>
+      `;
+        } else {
+          alert("Gagal mendapatkan data produk.");
+          window.location.href = "/"; // Redirect jika gagal
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan saat mengambil data produk.");
+        window.location.href = "/"; // Redirect jika error
+      }
+    });
+  </script>
+</html>

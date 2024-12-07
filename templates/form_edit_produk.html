@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Produk</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      form {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        background-color: #ecf0f1;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+      input,
+      select,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #bdc3c7;
+        border-radius: 3px;
+      }
+      button {
+        background-color: #2c3e50;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Update Product Form</h2>
+    <form id="input-nilai-form">
+      <label for="nama">Product Name:</label>
+      <input type="text" id="nama" name="nama" required />
+
+      <label for="nama">Price:</label>
+      <input type="number" id="number" name="number" required />
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" required />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const role = localStorage.getItem("role");
+
+        const productId = localStorage.getItem("editProductId");
+        const token = localStorage.getItem("token");
+
+        if (!productId || !token) {
+          alert(
+            "Data not found."
+          );
+          window.location.href = "/login";
+          return;
+        }
+
+        try {
+          // Fetch data produk berdasarkan ID
+          const response = await fetch(
+            `http://localhost:8080/products/${productId}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const product = await response.json();
+            document.getElementById("nama").value = product.ProductName;
+            document.getElementById("number").value = product.Price;
+            document.getElementById("quantity").value = product.Quantity;
+          } else {
+            alert("Failed to fetch data.");
+            window.location.href = "/";
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to fetch data.");
+          window.location.href = "/";
+        }
+      });
+
+      document
+        .getElementById("input-nilai-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const role = localStorage.getItem("role");
+
+          const productId = localStorage.getItem("editProductId");
+          const token = localStorage.getItem("token");
+
+          if (!productId || !token) {
+            alert("Data produk atau token tidak ditemukan.");
+            return;
+          }
+
+          const productName = document.getElementById("nama").value;
+          const price = document.getElementById("number").value;
+          const quantity = document.getElementById("quantity").value;
+
+          try {
+            const response = await fetch(
+              `http://localhost:8080/products/${productId}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  product_name: productName,
+                  price: parseInt(price),
+                  quantity: parseInt(quantity),
+                }),
+              }
+            );
+
+            if (response.ok) {
+              alert("Product is updated!");
+              window.location.href = "/";
+            } else {
+              const errorData = await response.json();
+              console.error("Error:", errorData);
+              alert("Failed updating product.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Failed updating product.");
+          }
+        });
+    </script>
+  </body>
+</html>
