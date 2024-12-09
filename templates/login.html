@@ -55,22 +55,20 @@
             const token = result.data; // Properti 'data' berisi token
             if (!token) {
               console.error("Token is undefined or missing in the response");
-              alert("Login berhasil, tapi token tidak ditemukan di respons.");
+              alert("Login failed.");
               return;
             }
 
             // Simpan token ke localStorage
             localStorage.setItem("token", token);
 
-            alert("Login berhasil!");
+            alert("You are now connected");
             window.location.href = "/"; // Redirect ke halaman dashboard
           } else {
             const errorData = await response.json();
-            alert(`Login gagal: ${errorData.message}`);
           }
         } catch (error) {
           console.error("Error:", error);
-          alert("Terjadi kesalahan selama proses login.");
         }
       });
     </script>
