@@ -8,23 +8,46 @@
       body {
         font-family: Arial, sans-serif;
         margin: 0;
-        padding: 20px;
-        background-color: #f4f6f9;
+        padding: 0;
+        background-color: #4A628A;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .navbar {
+        width: 100%;
+        background-color: #34495e;
+        color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: right;
+      }
+
+      .navbar a {
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        font-size: 16px;
+      }
+
+      .navbar a:hover {
+        background-color: #7AB2D3;
       }
 
       h2 {
         text-align: center;
-        color: #2c3e50;
-        margin-top: 20px;
+        color: white;
+        margin-top: 40px; /* Adjusted for spacing due to navbar */
       }
 
       form {
         max-width: 500px;
         margin: 20px auto;
         padding: 20px;
-        border: 1px solid #bdc3c7;
+        border: 1px solid #7AB2D3;
         border-radius: 8px;
-        background-color: #ffffff;
+        background-color: #7AB2D3;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
@@ -32,7 +55,7 @@
         display: block;
         margin: 10px 0 5px;
         font-weight: bold;
-        color: #2c3e50;
+        color: white;
       }
 
       input,
@@ -40,7 +63,7 @@
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
-        border: 1px solid #bdc3c7;
+        border: 1px solid #4A628A;
         border-radius: 4px;
         box-sizing: border-box;
       }
@@ -52,7 +75,7 @@
       }
 
       button {
-        background-color: #2c3e50;
+        background-color: #4A628A;
         color: #ffffff;
         font-size: 16px;
         font-weight: bold;
@@ -83,6 +106,10 @@
     </style>
   </head>
   <body>
+    <div class="navbar">
+      <a href="/">Home</a>
+      <a href="#" onclick="logout()">Log Out</a>
+    </div>
     <h2>Form Product Input</h2>
     <form id="input-produk-form">
       <label for="nama">Product Name:</label>
@@ -116,6 +143,11 @@
     </form>
 
     <script>
+      function logout() {
+        localStorage.clear();
+        window.location.href = '/login';
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("input-produk-form");
         const token = localStorage.getItem("token");

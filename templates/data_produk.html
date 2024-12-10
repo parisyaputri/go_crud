@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Produk</title>
+    <title>Product Data</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -11,45 +12,47 @@
         padding: 0;
         display: flex;
         height: 100vh;
-        background-color: #f4f6f9;
+        background-color: #4A628A; 
       }
-
+    
       /* Sidebar kiri */
       .sidebar-left {
         width: 250px;
-        background-color: #2c3e50;
+        background-color: #4A628A; /* #7AB2D3;*/
         color: white;
         padding-top: 20px;
         display: flex;
         flex-direction: column;
       }
-
+    
       .sidebar-left a {
+        width: 250px;
         color: white;
         text-decoration: none;
+        background-color: #4A628A;
         padding: 15px 20px;
         display: block;
       }
-
+    
       .sidebar-left a:hover {
-        background-color: #34495e;
+        background-color: #BCCCDC; 
       }
-
+    
       /* Konten utama */
       .main-content {
         flex-grow: 1;
         padding: 20px;
-        background-color: #ecf0f1;
+        background-color: #7AB2D3; 
         overflow-y: auto;
       }
-
+    
       .main-content h1 {
         font-size: 24px;
         margin-bottom: 20px;
         text-align: center;
-        color: #2c3e50;
+        color: white; /* Dusty blue-gray for headers */
       }
-
+    
       /* Tabel data produk */
       table {
         width: 100%;
@@ -58,27 +61,27 @@
         background-color: white;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
-
+    
       table th,
       table td {
-        border: 1px solid #ddd;
+        border: 1px solid #7AB2D3;
         text-align: left;
         padding: 12px;
       }
-
+    
       table th {
-        background-color: #2c3e50;
+        background-color: #4A628A; 
         color: white;
       }
-
+    
       table tr:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: #F8FAFC; /* Very light gray-blue for striped rows */
       }
-
+    
       table tr:hover {
-        background-color: #f1f1f1;
+        background-color: #BCCCDC; /* Medium gray-blue for hover effect */
       }
-
+    
       button {
         cursor: pointer;
         border: none;
@@ -88,39 +91,47 @@
         transition: background-color 0.3s ease;
         margin-right: 5px;
       }
-
+    
       button:hover {
-        background-color: #dcdcdc;
+        background-color: #dcdcdc; 
       }
-
+    
       .btn-primary {
-        background-color: #3498db;
+        background-color: #4A628A;
         color: white;
       }
-
+    
       .btn-danger {
-        background-color: #e74c3c;
+        background-color: #7AB2D3;
         color: white;
       }
 
+      .btn-info {
+        background-color: #4A628A;
+        color: white;
+    }
+    
       @media (max-width: 600px) {
         table th,
         table td {
           padding: 8px;
         }
-
+    
         button {
           padding: 6px 10px;
           font-size: 12px;
         }
       }
     </style>
+    
+
   </head>
   <body>
     <!-- Sidebar kiri -->
     <div class="sidebar-left">
       <h2 style="padding: 15px 20px">Menu</h2>
-      <a href="/" style="color: black">Product Data</a>
+          <!-- BIKIN DIV -->
+      <a href="/" style="color: white">Home</a> 
       <a href="#" id="logoutButton" onclick="logout()">Log Out</a>
     </div>
 
@@ -174,17 +185,11 @@
               <td>${product.ID}</td>
               <td>${product.ProductName}</td>
               <td>Rp ${product.Price.toLocaleString()}</td>
-                            <td> ${product.Quantity.toLocaleString()}</td>
+              <td>${product.Quantity.toLocaleString()}</td>
               <td>
-                <button class="btn-primary" onclick="lihatData(${
-                  product.ID
-                })">Data Details</button>
-                <button class="btn-primary" onclick="editData(${
-                  product.ID
-                })">Edit Data</button>
-                <button class="btn-danger" onclick="hapusData(${
-                  product.ID
-                })">Delete Data</button>
+                <button class="btn-primary" onclick="lihatData(${product.ID})">Data Details</button>
+                <button class="btn-danger" onclick="editData(${product.ID})">Edit Data</button>
+                <button class="btn-info" onclick="hapusData(${product.ID})">Delete Data</button>
               </td>
             `;
 
@@ -227,12 +232,8 @@
         window.location.href = `/lihat-data?id=${id}`;
       }
 
-      // Implementasikan fungsi editData dan hapusData sesuai kebutuhan Anda
       function editData(id) {
-        // Simpan ID produk di localStorage agar bisa diakses di halaman edit
         localStorage.setItem("editProductId", id);
-
-        // Redirect ke halaman edit
         window.location.href = "/edit-produk";
       }
 
@@ -244,11 +245,8 @@
         }
 
         try {
-          // Decode payload dari token
           const payload = JSON.parse(atob(token.split(".")[1]));
           console.log("Payload Token:", payload);
-
-          // Kembalikan role dari payload
           return payload.role || null;
         } catch (error) {
           console.error("Error decoding token:", error);
@@ -257,7 +255,7 @@
       }
 
       function hapusData(id) {
-        const role = getRoleFromToken(); // Ekstrak role dari token
+        const role = getRoleFromToken();
         const token = localStorage.getItem("token");
 
         console.log("Role dari Token:", role);
@@ -268,9 +266,7 @@
           return;
         }
 
-        const confirmation = confirm(
-          `Are you sure you want to delete the item with the ID ${id}?`
-        );
+        const confirmation = confirm(`Are you sure you want to delete the item with the ID ${id}?`);
         if (!confirmation) {
           return;
         }
